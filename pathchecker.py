@@ -26,22 +26,8 @@ class PageViewExtension(ObjectExtension):
 
 	def __init__(self, plugin, pageview):
 		self.plugin = plugin
-		self.connectto_all(pageview.ui, ('open-page'), order=SIGNAL_AFTER)
+		self.connectto(obj=pageview.ui, signal='open-page', handler=self.on_open_page, order=SIGNAL_AFTER)
 
 	def on_open_page(self, ui, page, path):
 		with open('/tmp/pathchecker.log', 'a') as mylog:
-			mylog.write(page.name + '\n')
-
-@extends('Notebook')
-class NotebookExtension(ObjectExtension):
-
-	def __init__(self, plugin, notebook):
-		self.plugin = plugin
-		self.connectto_all(notebook,
-			('deleted-page', 'stored-page'), order=SIGNAL_AFTER)
-
-	def on_deleted_page(self, page, path):
-		logger.debug("Deleted page: %s", page.name)
-
-	def on_stored_page(self, page, path):
-		logger.debug("Modified page: %s", page.name)
+			mylog.write('on_open_page:' + page.name + '\n')
