@@ -34,7 +34,7 @@ ui_toggle_actions = (
 	('toggle_pathcheck', 'path-check', _('Check _paths'), 'F8', 'Path check', False, True), # T: menu item
 )
 
-class SpellPlugin(PluginClass):
+class PathChecker(PluginClass):
 
 	plugin_info = {
 		'name': _('Path Checker'), # T: plugin name
@@ -52,58 +52,25 @@ Adds path checking.
 
 	def __init__(self, ui):
 		PluginClass.__init__(self, ui)
-		self.spell = None
 		self.uistate.setdefault('active', False)
 		if self.ui.ui_type == 'gtk':
 			self.ui.add_toggle_actions(ui_toggle_actions, self)
 			self.ui.add_ui(ui_xml, self)
 			self.connectto(self.ui, 'open-page', order=SIGNAL_AFTER)
 
-	@classmethod
-	def check_dependencies(klass):
-		return (not gtkspell is None), [('gtkspell', not gtkspell is None, True)]
-
-	def toggle_spellcheck(self, enable=None):
-		action = self.actiongroup.get_action('toggle_spellcheck')
+	def toggle_patchcheck(self, enable=None):
+		action = self.actiongroup.get_action('toggle_patchcheck')
 		if enable is None or enable != action.get_active():
 			action.activate()
 		else:
-			self.do_toggle_spellcheck(enable=enable)
+			self.do_toggle_patchcheck(enable=enable)
 
-	def do_toggle_spellcheck(self, enable=None):
-		#~ print 'do_toggle_spellcheck', enable
+	def do_toggle_patchcheck(self, enable=None):
 		if enable is None:
-			action = self.actiongroup.get_action('toggle_spellcheck')
+			action = self.actiongroup.get_action('toggle_patchcheck')
 			enable = action.get_active()
 
 		textview = self.ui.mainwindow.pageview.view
-		if enable:
-			if self.spell is None:
-				lang = self.preferences['language'] or None
-				try:
-					self.spell = gtkspell.Spell(textview, lang)
-				except:
-					lang = lang or get_environ('LANG') or get_environ('LANGUAGE')
-					ErrorDialog(self.ui, (
-						_('Could not load spell checking for language: "%s"') % lang,
-							# T: error message - %s is replaced with language codes like "en", "en_US"m or "nl_NL"
-						_('This could mean you don\'t have the proper\ndictionaries installed')
-							# T: error message explanation
-					) ).run()
-					return
-				else:
-					textview.gtkspell = self.spell # HACK used by hardcoded hook in pageview
-			else:
-				pass
-		else:
-			if self.spell is None:
-				pass
-			else:
-				if textview.gtkspell \
-				and textview.gtkspell == self.spell:
-					textview.gtkspell.detach()
-					textview.gtkspell = None
-				self.spell = None
 
 		self.uistate['active'] = enable
 		return False # we can be called from idle event
@@ -114,7 +81,6 @@ Adds path checking.
 		# Use idle timer to avoid lag in page loading.
 		# This hook also synchronizes the state of the toggle with
 		# the uistate when loading the first page
-		self.spell = None
 		if self.uistate['active']:
-			gobject.idle_add(self.toggle_spellcheck, True)
+			gobject.idle_add(self.toggle_patchcheck, True)
 
