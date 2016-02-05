@@ -2,7 +2,7 @@
 
 # Copyright 2008 Jaap Karssenberg <jaap.karssenberg@gmail.com>
 
-'''Spell check plugin based on gtkspell'''
+'''Path check plugin based on spell check plugin.'''
 
 import os
 import gobject
@@ -12,23 +12,18 @@ from zim.plugins import PluginClass
 from zim.gui.widgets import ErrorDialog
 from zim.signals import SIGNAL_AFTER
 
-try:
-	import gtkspell
-except:
-	gtkspell = None
-
 ui_xml = '''
 <ui>
 	<menubar name='menubar'>
 		<menu action='tools_menu'>
 			<placeholder name='page_tools'>
-				<menuitem action='toggle_spellcheck'/>
+				<menuitem action='toggle_pathcheck'/>
 			</placeholder>
 		</menu>
 	</menubar>
 	<toolbar name='toolbar'>
 		<placeholder name='tools'>
-			<toolitem action='toggle_spellcheck'/>
+			<toolitem action='toggle_pathcheck'/>
 		</placeholder>
 	</toolbar>
 </ui>
@@ -36,20 +31,19 @@ ui_xml = '''
 
 ui_toggle_actions = (
 	# name, stock id, label, accelerator, tooltip, initial state, readonly
-	('toggle_spellcheck', 'gtk-spell-check', _('Check _spelling'), 'F7', 'Spell check', False, True), # T: menu item
+	('toggle_pathcheck', 'path-check', _('Check _paths'), 'F8', 'Path check', False, True), # T: menu item
 )
 
 class SpellPlugin(PluginClass):
 
 	plugin_info = {
-		'name': _('Spell Checker'), # T: plugin name
+		'name': _('Path Checker'), # T: plugin name
 		'description': _('''\
-Adds spell checking support using gtkspell.
+Adds path checking.
 
-This is a core plugin shipping with zim.
 '''), # T: plugin description
-		'author': 'Jaap Karssenberg',
-		'help': 'Plugins:Spell Checker',
+		'author': 'Nathaniel Beaver',
+		'help': 'Plugins:Path Checker',
 	}
 
 	plugin_preferences = (
