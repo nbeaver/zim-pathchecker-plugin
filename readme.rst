@@ -23,6 +23,11 @@ Relevant parts of the code:
 
   - use ``get_links()`` method from the ``Page`` class
     - uses ``get_parsetree().findall(zim.formats.LINK)``
+    - does get a list of links, but no ability to change color of link.
+  - use ``iter_get_zim_tags()`` method on something.
+    - returns a list of ``gtk.TextTags``, so color can be modified.
+  - use on ``get_parsetree()`` directly
+  - http://askubuntu.com/questions/272446/pygtk-textbuffer-adding-tags-and-reading-text
 
 - Relevant signals:
 
