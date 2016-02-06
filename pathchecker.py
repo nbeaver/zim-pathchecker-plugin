@@ -10,7 +10,7 @@ import urlparse
 from zim.plugins import PluginClass, ObjectExtension, extends
 from zim.signals import SIGNAL_AFTER
 import zim.formats
-from zim.parsing import link_type
+import zim.parsing
 import logging
 
 import inspect
@@ -60,14 +60,14 @@ class PageViewExtension(ObjectExtension):
 		if tree:
 			for elt in tree.findall(zim.formats.LINK):
 				href = elt.attrib.pop('href')
-				type = link_type(href)
+				type = zim.parsing.link_type(href)
 				yield type, href, elt.attrib
 
 			for elt in tree.findall(zim.formats.IMAGE):
 				if not 'href' in elt.attrib:
 					continue
 				href = elt.attrib.pop('href')
-				type = link_type(href)
+				type = zim.parsing.link_type(href)
 				yield type, href, elt.attrib
 
 	def on_open_page(self, ui, page, path):
