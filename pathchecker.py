@@ -4,6 +4,7 @@
 '''Path check plugin based on spell check plugin.'''
 
 import sys
+import os.path
 from zim.plugins import PluginClass, ObjectExtension, extends
 from zim.signals import SIGNAL_AFTER
 import logging
@@ -31,9 +32,9 @@ class PageViewExtension(ObjectExtension):
 
 	def on_open_page(self, ui, page, path):
 		mylog = open('/tmp/pathchecker.log', 'a')
-		mylog.write('on_open_page:' + page.name + '\n')
-		mylog.write('on_open_page: page is ' + str(type(page)) + '\n')
-		mylog.write('on_open_page: ui is ' + str(type(ui)) + '\n')
 		for link_type, href, attrib in page.get_links():
-			mylog.write('link_type = '+ str(link_type) + ', href = ' + href + ', attrib = ' + str(attrib) + '\n')
+			if link_type == 'file':
+				path = os.path.expanduser(href)
+				if not os.path.exists(path):
+					mylog.write('broken link:' + href + '\n')
 		mylog.close()
