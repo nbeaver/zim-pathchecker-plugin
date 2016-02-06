@@ -21,8 +21,7 @@ Relevant parts of the code:
 
 - Find the URLs:
 
-  - Iterate over all TextTags in buffer?
-  - ``for element in node.getchildren():``
+  - use ``get_links()`` method from the ``Page`` class
 
 - Relevant signals:
 
@@ -32,3 +31,5 @@ Relevant parts of the code:
 - Link coloring:
 
   - ``'link': {'foreground': 'blue'},``
+
+-

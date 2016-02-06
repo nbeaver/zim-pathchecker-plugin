@@ -28,6 +28,12 @@ class PageViewExtension(ObjectExtension):
 		self.plugin = plugin
 		self.connectto(obj=pageview.ui, signal='open-page', handler=self.on_open_page, order=SIGNAL_AFTER)
 
+
 	def on_open_page(self, ui, page, path):
-		with open('/tmp/pathchecker.log', 'a') as mylog:
-			mylog.write('on_open_page:' + page.name + '\n')
+		mylog = open('/tmp/pathchecker.log', 'a')
+		mylog.write('on_open_page:' + page.name + '\n')
+		mylog.write('on_open_page: page is ' + str(type(page)) + '\n')
+		mylog.write('on_open_page: ui is ' + str(type(ui)) + '\n')
+		for link_type, href, attrib in page.get_links():
+			mylog.write('link_type = '+ str(link_type) + ', href = ' + href + ', attrib = ' + str(attrib) + '\n')
+		mylog.close()
