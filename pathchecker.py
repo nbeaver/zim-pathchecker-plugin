@@ -11,6 +11,12 @@ from zim.plugins import PluginClass, ObjectExtension, extends
 from zim.signals import SIGNAL_AFTER
 import logging
 
+import inspect
+
+def lineno():
+    """Returns the current line number in our program."""
+    return str(inspect.currentframe().f_back.f_lineno)
+
 logger = logging.getLogger('zim.plugins.pathcheck')
 
 class PathChecker(PluginClass):
