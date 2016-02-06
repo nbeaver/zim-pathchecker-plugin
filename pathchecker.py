@@ -51,6 +51,10 @@ class PageViewExtension(ObjectExtension):
 		mylog = open('/tmp/pathchecker.log', 'a')
 		mylog.write(lineno()+'\n')
 		for link_type, href, node in self.yield_link_nodes(page):
+			mylog.write(str(type(node)) + '\n')
+			if hasattr(node, 'tag'):
+				mylog.write('tag:' + node.tag + '\n')
+
 			mylog.write('link:' + href + '\n')
 			if link_type == 'file':
 				if href.startswith('file://'):
