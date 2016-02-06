@@ -5,6 +5,11 @@
 
 import sys
 import os.path
+try:
+    import urlparse # python 2.*
+except ImportError:
+    import urllib.parse as urlparse # python 3.*
+
 from zim.plugins import PluginClass, ObjectExtension, extends
 from zim.signals import SIGNAL_AFTER
 import logging
@@ -34,7 +39,10 @@ class PageViewExtension(ObjectExtension):
 		mylog = open('/tmp/pathchecker.log', 'a')
 		for link_type, href, attrib in page.get_links():
 			if link_type == 'file':
-				path = os.path.expanduser(href)
+				if href.startswith('file://'):
+					path = urlparse.parse(href).path
+				else:
+					path = os.path.expanduser(href)
 				if not os.path.exists(path):
 					mylog.write('broken link:' + href + '\n')
 		mylog.close()
