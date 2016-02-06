@@ -9,6 +9,8 @@ import urlparse
 
 from zim.plugins import PluginClass, ObjectExtension, extends
 from zim.signals import SIGNAL_AFTER
+import zim.formats
+from zim.parsing import link_type
 import logging
 
 import inspect
@@ -37,10 +39,42 @@ class PageViewExtension(ObjectExtension):
 		self.plugin = plugin
 		self.connectto(obj=pageview.ui, signal='open-page', handler=self.on_open_page, order=SIGNAL_AFTER)
 
+	def get_links(self, page):
+		'''Generator for links in the page content
+
+		This method gives the raw links from the content, if you want
+		nice L{Link} objects use
+		L{index.list_links()<zim.index.Index.list_links()>} instead.
+
+		@returns: yields a list of 3-tuples C{(type, href, attrib)}
+		where:
+		  - C{type} is the link type (e.g. "page" or "file")
+		  - C{href} is the link itself
+		  - C{attrib} is a dict with link properties
+		'''
+		# FIXME optimize with a ParseTree.get_links that does not
+		#       use Node
+		mylog = open('/tmp/pathchecker2.log', 'a')
+		mylog.write(lineno()+'\n')
+		tree = page.get_parsetree()
+		if tree:
+			for elt in tree.findall(zim.formats.LINK):
+				href = elt.attrib.pop('href')
+				type = link_type(href)
+				yield type, href, elt.attrib
+
+			for elt in tree.findall(zim.formats.IMAGE):
+				if not 'href' in elt.attrib:
+					continue
+				href = elt.attrib.pop('href')
+				type = link_type(href)
+				yield type, href, elt.attrib
 
 	def on_open_page(self, ui, page, path):
 		mylog = open('/tmp/pathchecker.log', 'a')
-		for link_type, href, attrib in page.get_links():
+		mylog.write(lineno()+'\n')
+		for link_type, href, node in self.get_links(page):
+			#mylog.write('link:' + href + '\n')
 			if link_type == 'file':
 				if href.startswith('file://'):
 					path = urlparse.urlparse(href).path
