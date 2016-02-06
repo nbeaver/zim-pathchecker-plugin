@@ -22,6 +22,7 @@ Relevant parts of the code:
 - Find the URLs:
 
   - use ``get_links()`` method from the ``Page`` class
+    - uses ``get_parsetree().findall(zim.formats.LINK)``
 
 - Relevant signals:
 
@@ -30,6 +31,7 @@ Relevant parts of the code:
 
 - Link coloring:
 
-  - ``'link': {'foreground': 'blue'},``
+  - in ``pageview.py``, the ``tag_styles`` dict has ``'link': {'foreground': 'blue'},``
+  - link are tags are ``gtk.TextTags``, so use ``tag.set_property('foreground', 'red')``
 
 -
