@@ -13,8 +13,8 @@ logger = logging.getLogger('zim.plugins.pathcheck')
 class PathChecker(PluginClass):
 
 	plugin_info = {
-		'name': _("Path Checker"), # T: plugin name
-		'description': _("Checks for broken paths in links."), # T: plugin description
+		'name': "Path Checker", # T: plugin name
+		'description': "Checks for broken paths in links.", # T: plugin description
 		'author': "Nathaniel Beaver",
 	}
 
