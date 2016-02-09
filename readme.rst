@@ -1,3 +1,4 @@
+Bug report here: https://bugs.launchpad.net/zim/+bug/1419531
 
 Relevant parts of the code:
 
