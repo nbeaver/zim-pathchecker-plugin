@@ -2,7 +2,7 @@ Bug report here: https://bugs.launchpad.net/zim/+bug/1419531
 
 Relevant parts of the code:
 
-- ``__init__.py``
+- ``plugins/__init__.py``
 
   - ~/source-code-downloads/zim/zim-0.65/zim/plugins/__init__.py
 
@@ -10,7 +10,7 @@ Relevant parts of the code:
       not be extended. To do something with them you need to extend the object
       that creates them."
 
-- ``pageview.py``
+- ``gui/pageview.py``
 
   - /usr/lib/python2.7/dist-packages/zim/gui/pageview.py
   - ~/source-code-downloads/zim/zim-0.65/zim/gui/pageview.py
