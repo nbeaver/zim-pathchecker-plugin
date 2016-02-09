@@ -15,10 +15,6 @@ import logging
 
 import inspect
 
-def lineno():
-    """Returns the current line number in our program."""
-    return str(inspect.currentframe().f_back.f_lineno)
-
 logger = logging.getLogger('zim.plugins.pathcheck')
 
 class PathChecker(PluginClass):
@@ -28,9 +24,6 @@ class PathChecker(PluginClass):
 		'description': "Checks for broken paths in links.", # T: plugin description
 		'author': "Nathaniel Beaver",
 	}
-
-with open('/tmp/pathchecker.log', 'a') as mylog:
-	mylog.write('running from '+sys.argv[0]+'\n')
 
 @extends('PageView')
 class PageViewExtension(ObjectExtension):
@@ -48,19 +41,13 @@ class PageViewExtension(ObjectExtension):
 				yield link_type, href, node
 
 	def on_open_page(self, ui, page, path):
-		mylog = open('/tmp/pathchecker.log', 'a')
-		mylog.write(lineno()+'\n')
+		logger.debug("Opened page: %s", page.name)
 		for link_type, href, node in self.yield_link_nodes(page):
-			mylog.write(str(type(node)) + '\n')
-			if hasattr(node, 'tag'):
-				mylog.write('tag:' + node.tag + '\n')
 
-			mylog.write('link:' + href + '\n')
 			if link_type == 'file':
 				if href.startswith('file://'):
 					path = urlparse.urlparse(href).path
 				else:
 					path = os.path.expanduser(href)
 				if not os.path.exists(path):
-					mylog.write('broken link:' + path + '\n')
-		mylog.close()
+					logger.debug("Broken path: %s", path)
