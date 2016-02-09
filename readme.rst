@@ -41,6 +41,8 @@ Relevant parts of the code:
   - link are tags are ``gtk.TextTags``, so use ``tag.set_property('foreground', 'red')``
 
 - Debugging.
+
   - Hard without stack traces.
+
     - http://stackoverflow.com/questions/916674/how-to-debug-pygtk-program
     - http://stackoverflow.com/questions/7726985/pygtk-console-output-for-debugging
