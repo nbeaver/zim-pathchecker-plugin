@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-'''Path check plugin based on spell check plugin.'''
+'''Path check plugin based on zeitgeist-logger plugin.'''
 
 import sys
 import os.path
