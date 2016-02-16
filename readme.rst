@@ -50,7 +50,10 @@ Relevant parts of the code:
 
 - Debugging.
 
-  - Hard without stack traces.
+  - Use ``zim --debug`` to get some of the errors.
+
+  - Harder without stack traces.
 
     - http://stackoverflow.com/questions/916674/how-to-debug-pygtk-program
     - http://stackoverflow.com/questions/7726985/pygtk-console-output-for-debugging
+
