@@ -4,7 +4,7 @@ Relevant parts of the code:
 
 - ``plugins/__init__.py``
 
-  - ~/source-code-downloads/zim/zim-0.65/zim/plugins/__init__.py
+  - ``/usr/lib/python2.7/dist-packages/zim/plugins/__init__.py``
 
     - "Short lived objects like individual pages, files, etc. will typically
       not be extended. To do something with them you need to extend the object
@@ -13,8 +13,6 @@ Relevant parts of the code:
 - ``gui/pageview.py``
 
   - /usr/lib/python2.7/dist-packages/zim/gui/pageview.py
-
-  - ~/source-code-downloads/zim/zim-0.65/zim/gui/pageview.py
 
   - especially:
 
