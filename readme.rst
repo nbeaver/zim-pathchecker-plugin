@@ -1,4 +1,20 @@
-Bug report here: https://bugs.launchpad.net/zim/+bug/1419531
+Bug report here:
+
+- https://bugs.launchpad.net/zim/+bug/1419531
+
+- https://github.com/jaap-karssenberg/zim-desktop-wiki/issues/310
+
+Lead Zim developer says this cannot be accomplished with plugins alone:
+
+    The reason is that the gtk.TextTag is private within the editor widget. The
+    parsetree only passes on the content of the page, but indeed does not
+    contain the widget objects.
+
+    So to implement this feature the parsetree needs to be updated to contain a
+    link attribute whether or not the target exists, plus the widget should be
+    updated to understand this attribute and render the link differently.
+
+https://lists.launchpad.net/zim-wiki/msg03879.html
 
 Relevant parts of the code:
 
